@@ -17,7 +17,7 @@ public class ShoeDetailedRepository extends Repository<ShoeDetailed> {
     }
 
     Optional<ShoeDetailed> find(Integer id) {
-        return find("sko_details", id, resultSet -> new ShoeDetailed(
+        return find(ShoeDetailed.table(), id, resultSet -> new ShoeDetailed(
                 resultSet.getInt("id"),
                 resultSet.getInt("antal"),
                 resultSet.getInt("storlek"),

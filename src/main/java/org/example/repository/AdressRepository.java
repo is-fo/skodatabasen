@@ -17,7 +17,7 @@ public class AdressRepository extends Repository<Adress> {
     }
 
     public Optional<Adress> find(Integer id) {
-        return find("adress", id, resultSet -> new Adress(
+        return find(Adress.table(), id, resultSet -> new Adress(
                 resultSet.getInt("id"),
                 resultSet.getString("postnr"),
                 resultSet.getString("ort"),

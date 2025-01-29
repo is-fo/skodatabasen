@@ -17,7 +17,7 @@ public class CustomerRepository extends Repository<Customer> {
     }
 
     public Optional<Customer> find(Integer id) {
-        return find("kund", id, resultSet -> new Customer(
+            return find(Customer.table(), id, resultSet -> new Customer(
                 resultSet.getInt("id"),
                 resultSet.getString("namn"),
                 resultSet.getString("email"),

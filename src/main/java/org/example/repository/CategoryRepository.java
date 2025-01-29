@@ -1,5 +1,6 @@
 package org.example.repository;
 
+import org.example.data.Adress;
 import org.example.data.Category;
 
 import javax.sql.DataSource;
@@ -17,7 +18,7 @@ public class CategoryRepository extends Repository<Category> {
     }
 
     Optional<Category> find(Integer id) {
-        return find("kategori", id, resultSet -> new Category(
+        return find(Category.table(), id, resultSet -> new Category(
                 resultSet.getInt("id"),
                 resultSet.getString("namn")));
     }

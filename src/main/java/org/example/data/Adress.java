@@ -5,4 +5,7 @@ public record Adress(Integer id,
                      String county,
                      String streetName,
                      String houseNo) implements Entity {
+    public static String table() {
+        return "adress";
+    }
 }

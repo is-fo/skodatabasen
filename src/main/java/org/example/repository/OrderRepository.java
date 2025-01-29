@@ -17,7 +17,7 @@ public class OrderRepository extends Repository<Order> {
     }
 
     Optional<Order> find(Integer id) {
-        return find("beställning", id, resultSet -> new Order(
+        return find(Order.table(), id, resultSet -> new Order(
                 resultSet.getInt("id"),
                 resultSet.getInt("kundId"),
                 resultSet.getDate("created"),

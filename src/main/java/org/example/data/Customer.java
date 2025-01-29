@@ -7,6 +7,9 @@ public record Customer(Integer id,
                        String email,
                        String telephone,
                        Integer fk_adress) implements Entity {
+    public static String table() {
+        return "kund";
+    }
     public Customer{
         Objects.requireNonNull(fk_adress);
     }
