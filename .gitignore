@@ -4,7 +4,7 @@ target/
 !**/src/test/**/target/
 
 ### project ###
-src/main/java/secret/
+src/main/resources/secret/
 
 ### IntelliJ IDEA ###
 .idea/modules.xml
@@ -39,3 +39,4 @@ build/
 
 ### Mac OS ###
 .DS_Store
+/src/main/resources/secret/secret.properties

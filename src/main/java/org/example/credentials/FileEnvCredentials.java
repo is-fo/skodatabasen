@@ -22,7 +22,7 @@ public class FileEnvCredentials implements DatabaseCredentials {
     }
 
     private static void readProperties() {
-        try (FileInputStream fileInputStream = new FileInputStream("src/main/java/secret/secret.properties")) {
+        try (FileInputStream fileInputStream = new FileInputStream("src/main/resources/secret/secret.properties")) {
             Properties properties = new Properties();
             properties.load(fileInputStream);
             dbUrl = properties.getProperty("db.url");
