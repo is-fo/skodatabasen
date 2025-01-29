@@ -2,8 +2,8 @@ package org.example.credentials;
 
 public interface DatabaseCredentials {
 
-    public String getDatabaseUrl();
-    public String getUsername();
-    public String getPassword();
+    String getDatabaseUrl();
+    String getUsername();
+    String getPassword();
 
 }
