@@ -3,10 +3,6 @@ package org.example.repository;
 import org.example.data.Category;
 
 import javax.sql.DataSource;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.Optional;
 
 public class CategoryRepository extends Repository<Category> {
@@ -20,23 +16,10 @@ public class CategoryRepository extends Repository<Category> {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    @Override
     Optional<Category> find(Integer id) {
-        try (Connection connection = dataSource.getConnection();
-             PreparedStatement statement = connection.prepareStatement("SELECT * FROM kategori WHERE id = ?")) {
-            statement.setInt(1, id);
-            try (ResultSet resultSet = statement.executeQuery()) {
-                if (resultSet.next()) {
-                    return Optional.of(new Category(
-                            resultSet.getInt("id"),
-                            resultSet.getString("name")
-                    ));
-                }
-            }
-        } catch (SQLException ex) {
-            errorLogger.logError(ex);
-        }
-        return Optional.empty();
+        return find("kategori", id, resultSet -> new Category(
+                resultSet.getInt("id"),
+                resultSet.getString("namn")));
     }
 
     @Override

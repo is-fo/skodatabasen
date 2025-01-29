@@ -6,7 +6,7 @@ import java.util.Objects;
 public record Order(Integer id,
                     Integer fk_customer,
                     Date created,
-                    Boolean active) implements DataEntry {
+                    Boolean active) implements Entity {
     public Order {
         Objects.requireNonNull(fk_customer);
     }

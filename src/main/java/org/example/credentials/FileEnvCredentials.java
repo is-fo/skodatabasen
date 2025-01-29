@@ -1,7 +1,6 @@
 package org.example.credentials;
 
 import org.example.logs.ConsoleErrorLogger;
-import org.example.logs.ErrorLogger;
 
 import java.io.FileInputStream;
 import java.io.IOException;

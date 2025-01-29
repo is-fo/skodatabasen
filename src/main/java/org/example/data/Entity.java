@@ -1,5 +1,5 @@
 package org.example.data;
 
-public interface DataEntry {
+public interface Entity {
     Integer id();
 }
