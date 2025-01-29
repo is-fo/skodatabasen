@@ -3,10 +3,6 @@ package org.example.repository;
 import org.example.data.Customer;
 
 import javax.sql.DataSource;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.Optional;
 
 public class CustomerRepository extends Repository<Customer> {
@@ -20,26 +16,13 @@ public class CustomerRepository extends Repository<Customer> {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    @Override
     public Optional<Customer> find(Integer id) {
-        try (Connection connection = dataSource.getConnection();
-             PreparedStatement statement = connection.prepareStatement("SELECT * FROM kund WHERE id = ?")) {
-            statement.setInt(1, id);
-            try (ResultSet resultSet = statement.executeQuery()) {
-                if (resultSet.next()) {
-                    return Optional.of(new Customer(
-                            resultSet.getInt("id"),
-                            resultSet.getString("namn"),
-                            resultSet.getString("email"),
-                            resultSet.getString("telefon"),
-                            resultSet.getInt("adressId")
-                    ));
-                }
-            }
-        } catch (SQLException ex) {
-            errorLogger.logError(ex);
-        }
-        return Optional.empty();
+        return find("kund", id, resultSet -> new Customer(
+                resultSet.getInt("id"),
+                resultSet.getString("namn"),
+                resultSet.getString("email"),
+                resultSet.getString("telefon"),
+                resultSet.getInt("adressId")));
     }
 
     @Override
