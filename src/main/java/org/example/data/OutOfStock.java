@@ -7,6 +7,7 @@ public record OutOfStock(Integer id,
     public static String table() {
         return "out_of_stock";
     }
+
     public OutOfStock {
         Objects.requireNonNull(fk_sko_details_id);
     }

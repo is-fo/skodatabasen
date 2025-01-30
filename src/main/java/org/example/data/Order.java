@@ -10,6 +10,7 @@ public record Order(Integer id,
     public static String table() {
         return "beställning";
     }
+
     public Order {
         Objects.requireNonNull(fk_customer);
     }

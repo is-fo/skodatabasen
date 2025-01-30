@@ -3,6 +3,7 @@ package org.example.repository;
 import org.example.data.Order;
 
 import javax.sql.DataSource;
+import java.util.List;
 import java.util.Optional;
 
 public class OrderRepository extends Repository<Order> {
@@ -24,30 +25,12 @@ public class OrderRepository extends Repository<Order> {
                 resultSet.getBoolean("active")));
     }
 
-    @Override
-    Iterable<Order> findAll() {
-        throw new UnsupportedOperationException("Not supported yet.");
+    List<Optional<Order>> findAll() {
+        return findAll(Order.table(), resultSet -> new Order(
+                resultSet.getInt("id"),
+                resultSet.getInt("kundId"),
+                resultSet.getDate("created"),
+                resultSet.getBoolean("active")
+        ));
     }
-
-    @Override
-    void update(Order entry) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    void delete(Order entry) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    void deleteAll() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    void deleteAll(Iterable<? extends Order> entities) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-
 }

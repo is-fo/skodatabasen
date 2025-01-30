@@ -10,7 +10,7 @@ public record ShoeDetailed(Integer id,
         return "sko_details";
     }
 
-    public ShoeDetailed{
+    public ShoeDetailed {
         Objects.requireNonNull(fk_shoe);
     }
 }

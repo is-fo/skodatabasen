@@ -1,9 +1,9 @@
 package org.example.repository;
 
-import org.example.data.Adress;
 import org.example.data.Category;
 
 import javax.sql.DataSource;
+import java.util.List;
 import java.util.Optional;
 
 public class CategoryRepository extends Repository<Category> {
@@ -23,28 +23,10 @@ public class CategoryRepository extends Repository<Category> {
                 resultSet.getString("namn")));
     }
 
-    @Override
-    Iterable<Category> findAll() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    void update(Category entry) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    void delete(Category entry) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    void deleteAll() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    void deleteAll(Iterable<? extends Category> entities) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    List<Optional<Category>> findAll() {
+        return findAll(Category.table(), resultSet -> new Category(
+                resultSet.getInt("id"),
+                resultSet.getString("namn")
+        ));
     }
 }

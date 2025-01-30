@@ -11,7 +11,8 @@ public record Customer(Integer id,
     public static String table() {
         return "kund";
     }
-    public Customer{
+
+    public Customer {
         Objects.requireNonNull(fk_adress);
     }
 }

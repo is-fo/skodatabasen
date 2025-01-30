@@ -10,6 +10,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -17,6 +19,7 @@ import java.util.Optional;
  * <br>
  * <a href="https://dev.mysql.com/doc/connector-j/en/connector-j-usagenotes-j2ee-concepts-connection-pooling.html">och connection pooling</a>
  * <br>
+ *
  * @param <ENTITY> the type of the entity which extends {@link Entity}
  */
 public abstract class Repository<ENTITY extends Entity> {
@@ -44,9 +47,33 @@ public abstract class Repository<ENTITY extends Entity> {
         }
         return Optional.empty();
     }
-    abstract Iterable<ENTITY> findAll();
-    abstract void update(ENTITY entry);
-    abstract void delete(ENTITY entry);
-    abstract void deleteAll();
-    abstract void deleteAll(Iterable<? extends ENTITY> entities);
+
+    protected List<Optional<ENTITY>> findAll(String table, RowMapper<ENTITY> mapper) {
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement statement = connection.prepareStatement("SELECT * FROM " + table)) {
+            try (ResultSet resultSet = statement.executeQuery()) {
+                List<Optional<ENTITY>> entities = new ArrayList<>();
+                while (resultSet.next()) {
+                    Optional<ENTITY> entry = Optional.ofNullable(mapper.mapRow(resultSet));
+                    entities.add(entry);
+                }
+                return entities;
+            }
+        } catch (SQLException ex) {
+            errorLogger.logError(ex);
+        }
+        List<Optional<ENTITY>> empty = new ArrayList<>(1);
+        empty.add(Optional.empty());
+        return empty; //tänka över
+    }
+
+
+    //TODO
+//    abstract void update(ENTITY entry);
+//
+//    abstract void delete(ENTITY entry);
+//
+//    abstract void deleteAll();
+//
+//    abstract void deleteAll(List<Optional<? extends ENTITY>> entities);
 }

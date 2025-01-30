@@ -3,6 +3,7 @@ package org.example.repository;
 import org.example.data.Customer;
 
 import javax.sql.DataSource;
+import java.util.List;
 import java.util.Optional;
 
 public class CustomerRepository extends Repository<Customer> {
@@ -17,7 +18,7 @@ public class CustomerRepository extends Repository<Customer> {
     }
 
     public Optional<Customer> find(Integer id) {
-            return find(Customer.table(), id, resultSet -> new Customer(
+        return find(Customer.table(), id, resultSet -> new Customer(
                 resultSet.getInt("id"),
                 resultSet.getString("namn"),
                 resultSet.getString("password"),
@@ -26,28 +27,14 @@ public class CustomerRepository extends Repository<Customer> {
                 resultSet.getInt("adressId")));
     }
 
-    @Override
-    public Iterable<Customer> findAll() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public void update(Customer entry) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public void delete(Customer entry) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public void deleteAll() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public void deleteAll(Iterable<? extends Customer> entities) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public List<Optional<Customer>> findAll() {
+        return findAll(Customer.table(), resultSet -> new Customer(
+                resultSet.getInt("id"),
+                resultSet.getString("namn"),
+                resultSet.getString("password"),
+                resultSet.getString("email"),
+                resultSet.getString("telefon"),
+                resultSet.getInt("adressId")
+        ));
     }
 }

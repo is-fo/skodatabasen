@@ -9,6 +9,7 @@ public record OrderDetailed(Integer id,
     public static String table() {
         return "beställning_details";
     }
+
     public OrderDetailed {
         Objects.requireNonNull(fk_order);
         Objects.requireNonNull(fk_sko_detailed);
