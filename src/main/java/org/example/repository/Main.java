@@ -22,6 +22,8 @@ public class Main {
             System.out.println(odr.find(1));
             OrderRepository or = new OrderRepository(ds);
             System.out.println(or.find(1));
+            OutOfStockRepository oos = new OutOfStockRepository(ds);
+            System.out.println(oos.find(1));
             ShoeDetailedRepository shr = new ShoeDetailedRepository(ds);
             System.out.println(shr.find(1));
             ShoeRepository sh = new ShoeRepository(ds);

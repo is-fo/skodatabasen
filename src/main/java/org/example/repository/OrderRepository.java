@@ -21,7 +21,7 @@ public class OrderRepository extends Repository<Order> {
                 resultSet.getInt("id"),
                 resultSet.getInt("kundId"),
                 resultSet.getDate("created"),
-                true));
+                resultSet.getBoolean("active")));
     }
 
     @Override
@@ -48,4 +48,6 @@ public class OrderRepository extends Repository<Order> {
     void deleteAll(Iterable<? extends Order> entities) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
+
+
 }

@@ -4,6 +4,7 @@ import java.util.Objects;
 
 public record Customer(Integer id,
                        String name,
+                       String password,
                        String email,
                        String telephone,
                        Integer fk_adress) implements Entity {

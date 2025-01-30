@@ -20,6 +20,7 @@ public class CustomerRepository extends Repository<Customer> {
             return find(Customer.table(), id, resultSet -> new Customer(
                 resultSet.getInt("id"),
                 resultSet.getString("namn"),
+                resultSet.getString("password"),
                 resultSet.getString("email"),
                 resultSet.getString("telefon"),
                 resultSet.getInt("adressId")));
