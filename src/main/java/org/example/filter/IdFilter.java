@@ -6,6 +6,22 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+/**
+ *
+ * {@code SELECT *
+ * FROM entities e
+ * JOIN (tabellen ID kommer ifrån) in ON e.foreign_key = in.ID
+ * WHERE in.ID = p_key;}
+ * <p>Meningen är att den här klassen ska fungera som en inner join men just nu sparar den inte datat från ID tabellen.
+ * Bara tänkt att användas för tabeller som har 1:M sammanband
+ * det går att göra typ nestade <a href="https://dzone.com/articles/using-filter-design-pattern-in-java">Filter</a> men det känns konstigt.
+ * <br>
+ * För att komma åt referensvärdena används <a href="https://openjdk.org/jeps/406">pattern matching med switch</a>
+ * för att undvika att join-beteenden ska vara hårdkodade används vanlig nestlad pattern matching för att undvika felskrivningar som ändå "fungerar".
+ * @param <ID> Primärnyckeln som refereras av {@link E}.
+ * @param <E> Representerar tabellen där som innehåller referensnycklar till {@link ID}
+ */
+
 public class IdFilter<ID extends Entity, E extends Entity> {
 
     public List<E> join(Optional<ID> p_key, List<E> entities) {
@@ -17,15 +33,15 @@ public class IdFilter<ID extends Entity, E extends Entity> {
             case Adress a -> throw new IllegalArgumentException(a.getClass().getSimpleName() + " has no foreign key");
             case Category c -> throw new IllegalArgumentException(c.getClass().getSimpleName() + " has no foreign key");
             case Customer c -> {
-                if (p_key.get() instanceof Adress) {
-                    yield c.fk_adress().equals(p_key.get().id());
+                if (p_key.get() instanceof Adress a) {
+                    yield c.fk_adress().equals(a.id());
                 } else {
                     throw new IllegalArgumentException("Invalid entity type, " + e.getClass().getSimpleName() + " has no foreign key of type : " + p_key.get().getClass().getSimpleName());
                 }
             }
             case Order o -> {
-                if (p_key.get() instanceof Customer) {
-                    yield o.fk_customer().equals(p_key.get().id());
+                if (p_key.get() instanceof Customer c) {
+                    yield o.fk_customer().equals(c.id());
                 } else {
                     throw new IllegalArgumentException("Invalid entity type, " + e.getClass().getSimpleName() + " has no foreign key of type : " + p_key.get().getClass().getSimpleName());
                 }
@@ -41,7 +57,7 @@ public class IdFilter<ID extends Entity, E extends Entity> {
             }
             case OutOfStock oos -> {
                 if (p_key.get() instanceof ShoeDetailed sd) {
-                    yield oos.fk_sko_details_id().equals(p_key.get().id());
+                    yield oos.fk_sko_details_id().equals(sd.id());
                 } else {
                     throw new IllegalArgumentException("Invalid entity type, " + e.getClass().getSimpleName() + " has no foreign key of type : " + p_key.get().getClass().getSimpleName());
                 }
