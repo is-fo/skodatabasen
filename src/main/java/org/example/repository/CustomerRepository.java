@@ -3,6 +3,10 @@ package org.example.repository;
 import org.example.data.Customer;
 
 import javax.sql.DataSource;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,7 +31,7 @@ public class CustomerRepository extends Repository<Customer> {
                 resultSet.getInt("adressId")));
     }
 
-    public List<Optional<Customer>> findAll() {
+    public List<Customer> findAll() {
         return findAll(Customer.table(), resultSet -> new Customer(
                 resultSet.getInt("id"),
                 resultSet.getString("namn"),
@@ -36,5 +40,27 @@ public class CustomerRepository extends Repository<Customer> {
                 resultSet.getString("telefon"),
                 resultSet.getInt("adressId")
         ));
+    }
+
+    public Optional<Customer> findByEmail(String email) {
+        try (Connection connection = dataSource.getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM kund WHERE email = ?")) {
+            preparedStatement.setString(1, email);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    return Optional.of(new Customer(
+                            resultSet.getInt("id"),
+                            resultSet.getString("namn"),
+                            resultSet.getString("password"),
+                            resultSet.getString("email"),
+                            resultSet.getString("telefon"),
+                            resultSet.getInt("adressId")
+                    ));
+                }
+            }
+        } catch (SQLException e) {
+            errorLogger.logError(e);
+        }
+        return Optional.empty();
     }
 }

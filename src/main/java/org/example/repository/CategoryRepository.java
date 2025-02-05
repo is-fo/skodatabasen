@@ -23,7 +23,7 @@ public class CategoryRepository extends Repository<Category> {
                 resultSet.getString("namn")));
     }
 
-    List<Optional<Category>> findAll() {
+    List<Category> findAll() {
         return findAll(Category.table(), resultSet -> new Category(
                 resultSet.getInt("id"),
                 resultSet.getString("namn")

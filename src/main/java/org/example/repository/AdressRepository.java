@@ -27,7 +27,7 @@ public class AdressRepository extends Repository<Adress> {
         ));
     }
 
-    public List<Optional<Adress>> findAll() {
+    public List<Adress> findAll() {
         return findAll(Adress.table(), resultSet -> new Adress(
                 resultSet.getInt("id"),
                 resultSet.getString("postnr"),

@@ -25,7 +25,7 @@ public class ShoeDetailedRepository extends Repository<ShoeDetailed> {
                 resultSet.getInt("skoId")));
     }
 
-    List<Optional<ShoeDetailed>> findAll() {
+    List<ShoeDetailed> findAll() {
         return findAll(ShoeDetailed.table(), resultSet -> new ShoeDetailed(
                 resultSet.getInt("id"),
                 resultSet.getInt("antal"),

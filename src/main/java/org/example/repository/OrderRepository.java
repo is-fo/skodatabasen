@@ -25,7 +25,7 @@ public class OrderRepository extends Repository<Order> {
                 resultSet.getBoolean("active")));
     }
 
-    List<Optional<Order>> findAll() {
+    List<Order> findAll() {
         return findAll(Order.table(), resultSet -> new Order(
                 resultSet.getInt("id"),
                 resultSet.getInt("kundId"),

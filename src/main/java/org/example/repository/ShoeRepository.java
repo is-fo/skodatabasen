@@ -25,7 +25,7 @@ public class ShoeRepository extends Repository<Shoe> {
                 resultSet.getString("color")));
     }
 
-    List<Optional<Shoe>> findAll() {
+    List<Shoe> findAll() {
         return findAll(Shoe.table(), resultSet -> new Shoe(
                 resultSet.getInt("id"),
                 resultSet.getInt("pris"),

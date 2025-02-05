@@ -25,7 +25,7 @@ public class OrderDetailedRepository extends Repository<OrderDetailed> {
                 resultSet.getInt("antal")));
     }
 
-    List<Optional<OrderDetailed>> findAll() {
+    List<OrderDetailed> findAll() {
         return findAll(OrderDetailed.table(), resultSet -> new OrderDetailed(
                 resultSet.getInt("id"),
                 resultSet.getInt("orderId"),

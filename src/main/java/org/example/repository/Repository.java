@@ -1,7 +1,6 @@
 package org.example.repository;
 
 import org.example.data.Entity;
-import org.example.data.RowMapper;
 import org.example.logs.ConsoleErrorLogger;
 import org.example.logs.ErrorLogger;
 
@@ -10,9 +9,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 /**
  * <a href="https://docs.spring.io/spring-data/commons/docs/current/api/org/springframework/data/repository/CrudRepository.html">Interfacet definerar grundläggande CRUD operationer</a>
@@ -48,13 +45,13 @@ public abstract class Repository<ENTITY extends Entity> {
         return Optional.empty();
     }
 
-    protected List<Optional<ENTITY>> findAll(String table, RowMapper<ENTITY> mapper) {
+    protected List<ENTITY> findAll(String table, RowMapper<ENTITY> mapper) {
         try (Connection connection = dataSource.getConnection();
              PreparedStatement statement = connection.prepareStatement("SELECT * FROM " + table)) {
             try (ResultSet resultSet = statement.executeQuery()) {
-                List<Optional<ENTITY>> entities = new ArrayList<>();
+                List<ENTITY> entities = new ArrayList<>();
                 while (resultSet.next()) {
-                    Optional<ENTITY> entry = Optional.ofNullable(mapper.mapRow(resultSet));
+                    ENTITY entry = mapper.mapRow(resultSet);
                     entities.add(entry);
                 }
                 return entities;
@@ -62,9 +59,8 @@ public abstract class Repository<ENTITY extends Entity> {
         } catch (SQLException ex) {
             errorLogger.logError(ex);
         }
-        List<Optional<ENTITY>> empty = new ArrayList<>(1);
-        empty.add(Optional.empty());
-        return empty; //tänka över
+
+         return new ArrayList<>(); //hm
     }
 
 
@@ -76,4 +72,22 @@ public abstract class Repository<ENTITY extends Entity> {
 //    abstract void deleteAll();
 //
 //    abstract void deleteAll(List<Optional<? extends ENTITY>> entities);
+}
+
+/**
+ * <a href="https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/jdbc/core/RowMapper.html">inspiration</a>
+ * <br> RowMapper is a <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/FunctionalInterface.html"> functional interface</a>  used
+ * to map instances of {@link ResultSet} to {@link Entity} objects.
+ *
+ * @param <ENTITY> the data entity which extends {@link Entity}
+ */
+
+@FunctionalInterface
+interface RowMapper<ENTITY extends Entity> {
+    /**
+     * @param rs the {@link ResultSet} to be mapped
+     * @return an instance of a concrete implementation of {@link Entity}
+     * @throws SQLException
+     */
+    ENTITY mapRow(ResultSet rs) throws SQLException;
 }

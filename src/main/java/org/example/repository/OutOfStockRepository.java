@@ -24,7 +24,7 @@ public class OutOfStockRepository extends Repository<OutOfStock> {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    List<Optional<OutOfStock>> findAll() {
+    List<OutOfStock> findAll() {
         return findAll(OutOfStock.table(), resultSet -> new OutOfStock(
                 resultSet.getInt("id"),
                 resultSet.getInt("sko_detailsId")
