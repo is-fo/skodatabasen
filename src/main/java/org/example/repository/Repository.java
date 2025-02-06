@@ -9,7 +9,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 /**
  * <a href="https://docs.spring.io/spring-data/commons/docs/current/api/org/springframework/data/repository/CrudRepository.html">Interfacet definerar grundläggande CRUD operationer</a>
@@ -60,7 +62,7 @@ public abstract class Repository<ENTITY extends Entity> {
             errorLogger.logError(ex);
         }
 
-         return new ArrayList<>(); //hm
+        return new ArrayList<>(); //hm
     }
 
 

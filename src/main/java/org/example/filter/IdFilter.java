@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- *
  * {@code SELECT *
  * FROM entities e
  * JOIN (tabellen ID kommer ifrån) in ON e.foreign_key = in.ID
@@ -17,8 +16,9 @@ import java.util.stream.Collectors;
  * <br>
  * För att komma åt referensvärdena används <a href="https://openjdk.org/jeps/406">pattern matching med switch</a>
  * för att undvika att join-beteenden ska vara hårdkodade används vanlig nestlad pattern matching för att undvika felskrivningar som ändå "fungerar".
+ *
  * @param <ID> Primärnyckeln som refereras av {@link E}.
- * @param <E> Representerar tabellen där som innehåller referensnycklar till {@link ID}
+ * @param <E>  Representerar tabellen där som innehåller referensnycklar till {@link ID}
  */
 
 public class IdFilter<ID extends Entity, E extends Entity> {

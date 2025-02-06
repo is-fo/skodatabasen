@@ -44,7 +44,7 @@ public class CustomerRepository extends Repository<Customer> {
 
     public Optional<Customer> findByEmail(String email) {
         try (Connection connection = dataSource.getConnection();
-        PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM kund WHERE email = ?")) {
+             PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM kund WHERE email = ?")) {
             preparedStatement.setString(1, email);
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 if (resultSet.next()) {

@@ -1,8 +1,14 @@
 package org.example.repository;
 
+import org.example.data.Category;
 import org.example.data.Shoe;
 
 import javax.sql.DataSource;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,5 +38,31 @@ public class ShoeRepository extends Repository<Shoe> {
                 resultSet.getString("brand"),
                 resultSet.getString("color")
         ));
+    }
+
+    public List<Shoe> findShoesInCategory(Category category) {
+        List<Shoe> shoes = new ArrayList<>();
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement statement = connection.prepareCall("""
+                     SELECT * FROM sko s
+                     JOIN kat_tillhörighet kt ON s.id = kt.skoId
+                     JOIN kategori k ON kt.katId = k.id
+                     WHERE k.id = ?;
+                     """)) {
+            statement.setInt(1, category.id());
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                shoes.add(new Shoe(
+                        rs.getInt("id"),
+                        rs.getInt("pris"),
+                        rs.getString("brand"),
+                        rs.getString("color")
+                ));
+            }
+            return shoes;
+        } catch (SQLException e) {
+            errorLogger.logError(e);
+        }
+        return shoes;
     }
 }

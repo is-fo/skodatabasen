@@ -13,14 +13,13 @@ public class ConsoleErrorLogger implements ErrorLogger {
         switch (ex) {
             case SQLException e -> {
                 System.err.println("SQLException: " + e.getMessage());
-                System.err.println("SQLState: " + e.getSQLState());
-                System.err.println("VendorError: " + e.getErrorCode());
             }
             case IOException e -> {
                 System.err.println("IOException: " + e.getMessage());
             }
             default -> System.err.println("Exception: " + ex.getMessage());
         }
-        System.err.println("Line: " + ex.getStackTrace()[ex.getStackTrace().length - 1]); //plockar ut raden det hände på, kanske ska bytas ut med ett helt stacktrace
+//        System.err.println("Line: " + ex.getStackTrace()[ex.getStackTrace().length - 1]); //plockar ut raden det hände på, kanske ska bytas ut med ett helt stacktrace
+        ex.printStackTrace();
     }
 }
